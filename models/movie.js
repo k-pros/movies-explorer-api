@@ -24,6 +24,7 @@ const movieSchema = new mongoose.Schema({
   },
   image: {
     type: String,
+    required: true,
     validate: {
       validator: (v) => validator.isURL(v),
       message: 'Некорректный URL',
@@ -31,6 +32,7 @@ const movieSchema = new mongoose.Schema({
   },
   trailerLink: {
     type: String,
+    required: true,
     validate: {
       validator: (v) => validator.isURL(v),
       message: 'Некорректный URL',
@@ -38,15 +40,11 @@ const movieSchema = new mongoose.Schema({
   },
   thumbnail: {
     type: String,
+    required: true,
     validate: {
       validator: (v) => validator.isURL(v),
       message: 'Некорректный URL',
     },
-  },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-    required: true,
   },
   movieId: {
     type: Number,
@@ -58,6 +56,11 @@ const movieSchema = new mongoose.Schema({
   },
   nameEN: {
     type: String,
+    required: true,
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
     required: true,
   },
 });
