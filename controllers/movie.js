@@ -39,6 +39,9 @@ module.exports.deleteMovie = (req, res, next) => {
       if (!movie) {
         throw new NotFoundError('Фильм с указанным _id не найдена');
       }
+      if (String(req.user._id) !== String(movie.owner)) {
+        throw new NotFoundError('Запрещено удалять фильм, сохраненный другим пользователем');
+      }
       return movie.deleteOne()
         .then(() => res.status(200).send(movie));
     })
