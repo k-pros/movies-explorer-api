@@ -7,12 +7,16 @@ const { handleErrors } = require('./middlewares/handleErrors');
 const { auth } = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/user');
 const { validateCreateUser, validateLogin } = require('./middlewares/validation');
-const { PORT, DB_URL } = require('./config');
+const { PORT, DB_URL, LIMITER_OPTIONS } = require('./config');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { rateLimit } = require('express-rate-limit');
+
+const limiter = rateLimit(LIMITER_OPTIONS); // настройка лимитера запросов
 
 const app = express();
 mongoose.connect(DB_URL);
 app.use(express.json());
+app.use(limiter);
 
 app.use(requestLogger); // подключаем логгер запросов
 
