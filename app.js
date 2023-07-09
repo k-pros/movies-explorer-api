@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const router = require('./routes');
-
 const { PORT, DB_URL } = require('./config');
+const router = require('./routes');
+const { handleErrors } = require('./middlewares/handleErrors');
 
 const app = express();
 mongoose.connect(DB_URL);
@@ -18,6 +18,8 @@ app.use((req, res, next) => {
 });
 
 app.use(router);
+
+app.use(handleErrors); // централизованный обработчик ошибок
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
