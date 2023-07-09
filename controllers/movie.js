@@ -22,7 +22,7 @@ module.exports.addMovie = (req, res, next) => {
   })
     .then((movie) => {
       Movie.findById(movie._id)
-        // .populate('owner')
+        .populate('owner')
         .then((newMovie) => res.status(201).send(newMovie))
         .catch(next);
     })
