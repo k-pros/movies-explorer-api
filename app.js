@@ -1,5 +1,6 @@
 /* eslint-disable object-curly-newline */
 require('dotenv').config();
+const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
@@ -21,6 +22,7 @@ mongoose.connect(DB_URL);
 
 app.use(cors(CORS_OPTIONS));
 app.use(express.json());
+app.use(helmet()); // настройка заголовков HTTP для защиты приложения
 app.use(limiter);
 
 app.use(requestLogger); // подключаем логгер запросов
