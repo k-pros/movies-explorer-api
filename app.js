@@ -1,22 +1,20 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const { PORT, DB_URL } = require('./config');
 const router = require('./routes');
 const { handleErrors } = require('./middlewares/handleErrors');
+const { auth } = require('./middlewares/auth');
+const { login, createUser } = require('./controllers/user');
 
 const app = express();
 mongoose.connect(DB_URL);
 app.use(express.json());
 
-// временное решение авторизации
-app.use((req, res, next) => {
-  req.user = {
-    _id: '64a85baebb67dcc00c7e0099',
-  };
+app.post('/signin', login);
+app.post('/signup', createUser);
 
-  next();
-});
-
+app.use(auth);
 app.use(router);
 
 app.use(handleErrors); // централизованный обработчик ошибок
